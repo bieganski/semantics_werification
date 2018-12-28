@@ -85,4 +85,34 @@
 \section{Instructions}
 
 
+\eq {skip} {
+	\sem{skip} \srodP = \srodP
+}
+
+\eq {x := e} {
+	\sem{x := e} \srodP = \PV \; s[(\varrho_V \; x) \mapsto \sem{e} \srod]
+}
+
+\eq {$I_1;I_2$} {
+	\sem{I_1;I_2} = \sem{I_2} \circ \sem{I_1}
+}
+
+\eq {if $b$ then $I_1$ else $I_2$} {
+	\sem{if\;b\;then\;I_1\;else\;I_2} \srodP = ifte(\sem{b}\srodP,\;\sem{I_1}\srodP, \sem{I_2}\srodP )
+}
+
+
+% todo punkt staly
+\eq {while b do I} {
+	\sem{while\;b\;do\;I} \srodP = ifte(\sem{b}\srodP, \sem{while\;b\;do\;I} (\sem{I} \srodP),\srodP)
+}
+
+\eq {begin D; I end} {
+	\sem{begin\;D;\;I\;end} = TODO
+}
+
+\eq {call\;p(x)} {
+	\sem{call\;p(x)} = TODO
+}
+
 \end{document}
