@@ -1,0 +1,66 @@
+\documentclass[12pt]{article}
+
+\usepackage{stmaryrd}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{setspace}
+\newcommand{\sem}[1]{\llbracket #1 \rrbracket}
+\newcommand{\srod}{\;\varrho_{V}, s}
+\newcommand{\srodP}{\;\varrho_{V}, \varrho_{P}, s}
+\newcommand{\reg}[1]{\[ #1 \]}
+\newcommand{\eq}[2]{\subsection{#1} \begin{gather*} #2 \end{gather*}}
+
+
+
+\begin{document}
+
+\begin{center}
+	\Large{Semantyka i weryfikacja - praca domowa nr 2}
+	\newline
+	\large{Mateusz Bieganski mb385162}
+\end{center}
+
+% \begin{equation*}
+% \end{equation*}
+
+% TODO gather -> gather*
+\section{Expressions}
+\eq{e}{	
+	\sem{e} \srodP = q \in \mathbb{Q}
+}
+
+\eq {x} {
+	\sem{x} \srod = s \;(\varrho_{V} \; x)
+}
+
+\eq {e + e} {
+	\sem{e_1 + e_2} \srod = \sem{e1} \srod + \sem{e2} \srod
+}
+
+\eq {e * e, e - e - analogicznie} {
+\;
+}
+
+\section{Bool Expressions}
+\eq {true} {
+	\sem{true} \srod = tt
+}
+
+\eq {false} {
+	\sem{false} \srod = ff
+}
+
+\eq {e $<$ e} {
+	\sem{e_1 < e_2} \srod = ifte(\;\sem{e_1} \srod < \sem{e_2} \srod, \; tt, ff \;)
+}
+
+\eq {e = e, b $\wedge$ b, $\neg$b - analogicznie} {
+	\;
+}
+
+\section{Declarations}
+\eq {var x = e} {
+	\sem{var \; x = e} \srodP = 
+}
+
+\end{document}
