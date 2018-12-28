@@ -60,7 +60,12 @@
 
 \section{Declarations}
 \eq {var x = e} {
-	\sem{var \; x = e} \srodP = 
+	\sem{var \; x = e} \srodP = \varrho_{V}[x \mapsto l], \varrho_{P}, s[l \mapsto n] \\
+	where \; l = newloc(s), \; n = \sem{e} \srod
+}
+
+\eq {proc p(x) I} {
+	\sem{proc \; p(x) \;I} \srodP
 }
 
 \end{document}
