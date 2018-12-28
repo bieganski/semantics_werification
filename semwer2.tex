@@ -7,9 +7,9 @@
 \newcommand{\sem}[1]{\llbracket #1 \rrbracket}
 \newcommand{\srod}{\;\varrho_{V}, s}
 \newcommand{\srodP}{\;\varrho_{V}, \varrho_{P}, s}
+\newcommand{\PV}{\; \varrho_{V} \; \varrho_{P}}
 \newcommand{\reg}[1]{\[ #1 \]}
 \newcommand{\eq}[2]{\subsection{#1} \begin{gather*} #2 \end{gather*}}
-
 
 
 \begin{document}
@@ -60,12 +60,29 @@
 
 \section{Declarations}
 \eq {var x = e} {
-	\sem{var \; x = e} \srodP = \varrho_{V}[x \mapsto l], \varrho_{P}, s[l \mapsto n] \\
+	\sem{var \; x = e} \srodP = \varrho_{V}[x \mapsto l], \varrho_{P}, 
+	s[l \mapsto n] \\
 	where \; l = newloc(s), \; n = \sem{e} \srod
 }
 
-\eq {proc p(x) I} {
-	\sem{proc \; p(x) \;I} \srodP
+\eq {$\epsilon$} {
+	\sem{\epsilon} \; \varrho_{V} = id_{P} 
 }
+
+\eq {proc p(x) I} {
+	\sem{proc \; p(x) \;I} \PV  = \varrho_{P}[p \mapsto P] \\
+	where \; P = \lambda.s:State.\sem{I} \; \varrho_{V} \; \varrho_{P}[p \mapsto P] \;s[l \mapsto \sem{s \; (\varrho_{V} \; x)}\srod], \\
+	l = newloc(s)
+}
+
+
+\eq {$D_1; D_2$} {
+	\sem{D_1; D_2} \PV = \sem{D_2} \varrho_P' \varrho_D' \\
+	where \; \varrho_P' \; \varrho_D' = \sem{D_1} \PV
+}
+
+
+\section{Instructions}
+
 
 \end{document}
