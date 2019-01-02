@@ -9,7 +9,7 @@
 \newcommand{\srodP}{\;\varrho_{V}, \varrho_{P}, s}
 \newcommand{\PV}{\; \varrho_{V} \; \varrho_{P}}
 \newcommand{\reg}[1]{\[ #1 \]}
-\newcommand{\eq}[2]{\subsection{#1} \begin{gather*} #2 \end{gather*}}
+\newcommand{\eq}[2]{\subsection*{#1} \begin{gather*} #2 \end{gather*}}
 
 
 \begin{document}
@@ -20,13 +20,13 @@
 	\large{Mateusz Bieganski mb385162}
 \end{center}
 
-% \begin{equation*}
-% \end{equation*}
 
-% TODO gather -> gather*
 \section{Expressions}
+
+
+
 \eq{e}{	
-	\sem{e} \srodP = q \in \mathbb{Q}
+	\sem{e} \srod = q \in \mathbb{Q}
 }
 
 \eq {x} {
@@ -37,7 +37,7 @@
 	\sem{e_1 + e_2} \srod = \sem{e1} \srod + \sem{e2} \srod
 }
 
-\eq {e * e, e - e - analogicznie} {
+\eq {e * e, e - e - similarly} {
 \;
 }
 
@@ -54,7 +54,7 @@
 	\sem{e_1 < e_2} \srod = ifte(\;\sem{e_1} \srod < \sem{e_2} \srod, \; tt, ff \;)
 }
 
-\eq {e = e, b $\wedge$ b, $\neg$b - analogicznie} {
+\eq {e = e, b $\wedge$ b, $\neg$b - similarly} {
 	\;
 }
 
@@ -66,19 +66,18 @@
 }
 
 \eq {$\epsilon$} {
-	\sem{\epsilon} \; \varrho_{V} = id_{P} 
+	\sem{\epsilon} \; \srodP = \srodP%
 }
 
 \eq {proc p(x) I} {
-	\sem{proc \; p(x) \;I} \PV  = \varrho_{P}[p \mapsto P] \\
-	where \; P = \lambda.s:State.\sem{I} \; \varrho_{V} \; \varrho_{P}[p \mapsto P] \;s[l \mapsto \sem{s \; (\varrho_{V} \; x)}\srod], \\
+	\sem{proc \; p(x) \;I} \srodP  =  \varrho_V \; \varrho_{P}[p \mapsto P] \; s\\
+	where \; P = \lambda.s:State.\sem{I} \; \varrho_{V}[x \mapsto l] \; \varrho_{P}[p \mapsto P] \;s[l \mapsto \sem{s \; (\varrho_{V} \; x)}\srod], \\
 	l = newloc(s)
 }
 
 
 \eq {$D_1; D_2$} {
-	\sem{D_1; D_2} \PV = \sem{D_2} \varrho_P' \varrho_D' \\
-	where \; \varrho_P' \; \varrho_D' = \sem{D_1} \PV
+	\sem{D_1; D_2} = \sem{D_2} \circ \sem{D_1}
 }
 
 
@@ -86,11 +85,11 @@
 
 
 \eq {skip} {
-	\sem{skip} \srodP = \srodP
+	\sem{skip} \srodP = s
 }
 
 \eq {x := e} {
-	\sem{x := e} \srodP = \PV \; s[(\varrho_V \; x) \mapsto \sem{e} \srod]
+	\sem{x := e} \srodP = s[(\varrho_V \; x) \mapsto \sem{e} \srod]
 }
 
 \eq {$I_1;I_2$} {
@@ -102,17 +101,17 @@
 }
 
 
-% todo punkt staly
+todo punkt staly
 \eq {while b do I} {
 	\sem{while\;b\;do\;I} \srodP = ifte(\sem{b}\srodP, \sem{while\;b\;do\;I} (\sem{I} \srodP),\srodP)
 }
 
 \eq {begin D; I end} {
-	\sem{begin\;D;\;I\;end} = TODO
+	\sem{begin\;D;\;I\;end} = \sem{I} \; \sem{D}
 }
 
 \eq {call\;p(x)} {
-	\sem{call\;p(x)} = TODO
+	\sem{call\;p(x)} \srodP = (\varrho_P \; p) \; s \; (\varrho_V \; x)
 }
 
 \end{document}
