@@ -71,7 +71,8 @@
 
 \eq {proc p(x) I} {
 	\sem{proc \; p(x) \;I} \srodP  =  \varrho_V \; \varrho_{P}[p \mapsto P] \; s\\
-	where \; P = \lambda.s:State.\sem{I} \; \varrho_{V}[x \mapsto l] \; \varrho_{P}[p \mapsto P] \;s[l \mapsto \sem{s \; (\varrho_{V} \; x)}\srod], \\
+	where \; P = \lambda s\lambda xloc. s'[locx \mapsto s' \; l] \\
+	where \; s' = \sem{I} \; \varrho_{V}[x \mapsto l] \; \varrho_{P}[p \mapsto P] \;s[l \mapsto (s \; locx)], \\
 	l = newloc(s)
 }
 
@@ -103,7 +104,8 @@
 
 todo punkt staly
 \eq {while b do I} {
-	\sem{while\;b\;do\;I} \srodP = ifte(\sem{b}\srodP, \sem{while\;b\;do\;I} (\sem{I} \srodP),\srodP)
+	\sem{while\;b\;do\;I} \srodP = Fix(\Phi) \\ 
+	where \; \Phi(F) = ifte(\sem{b}\srodP, \sem{while\;b\;do\;I} (\sem{I} \srodP),\srodP)
 }
 
 \eq {begin D; I end} {
@@ -112,6 +114,10 @@ todo punkt staly
 
 \eq {call\;p(x)} {
 	\sem{call\;p(x)} \srodP = (\varrho_P \; p) \; s \; (\varrho_V \; x)
+}
+
+\eq {test} {
+	\Phi
 }
 
 \end{document}
