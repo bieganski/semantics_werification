@@ -1,7 +1,7 @@
 \documentclass[12pt]{article}
 
 \usepackage{stmaryrd}
-\usepackage{amsmath}
+\usepackage[fleqn]{amsmath}
 \usepackage{amssymb}
 \usepackage{setspace}
 
@@ -27,7 +27,7 @@
 \maketitle
 
 \section*{Domains}
-Only Procedure domain might differ from standard TINY domains are listed (variable passing by reference)
+Only Procedure domain might differ from standard TINY domain (variable passing  a la 'by reference')
 $$Proc = Store \rightarrow Loc \rightharpoonup Store$$
 
 \section*{Semantic function types}
@@ -57,11 +57,15 @@ Standard ones, I put them because on the Lecture they were separated to Procedur
 	\sem{\epsilon} \; \srodP = \srodP%
 }
 
+{\setlength{\mathindent}{0cm}
 \eq {proc p(x) I} {
-	\sem{proc \; p(x) \;I} \srodP  =  \varrho_V \; \varrho_{P}[p \mapsto P] \; s\\
-	where \; P = \lambda s\lambda locx. s'[locx \mapsto s' \; l] \\
-	where \; s' = \sem{I} \; \varrho_{V}[x \mapsto l] \; \varrho_{P}[p \mapsto P] \;s[l \mapsto (s \; locx)], \\
-	l = newloc(s)
+% $$Fix : (PEnv \rightarrow PEnv) \rightarrow PEnv $$ \\ 
+	Fix : (PEnv \rightarrow PEnv) \rightarrow PEnv	\\ \\
+	\sem{proc \; p(x) \;I} \srodP  =  \varrho_V, Fix(\Phi), \; s\\
+	\indent where \; \Phi(\varrho_{x}) = \varrho_{P}[p \mapsto P] \\
+	\indent \indent where \; P = \lambda s\lambda locx. s'[locx \mapsto s' \; l] \\
+	\indent \indent \indent where \; s' = \sem{I} \; \varrho_{x}[x \mapsto l] \; \varrho_{P}[p \mapsto P] \;s[l \mapsto (s \; locx)], \\
+	\indent \indent \indent \indent \indent l = newloc(s) \\
 }
 
 
