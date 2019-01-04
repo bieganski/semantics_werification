@@ -4,6 +4,11 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{setspace}
+
+\usepackage{indentfirst} % removes first indent
+
+\usepackage[a4paper,top=2cm,bottom=2cm]{geometry}
+
 \newcommand{\sem}[1]{\llbracket #1 \rrbracket}
 \newcommand{\srod}{\;\varrho_{V}, s}
 \newcommand{\srodP}{\;\varrho_{V}, \varrho_{P}, s}
@@ -11,54 +16,37 @@
 \newcommand{\reg}[1]{\[ #1 \]}
 \newcommand{\eq}[2]{\subsection*{#1} \begin{gather*} #2 \end{gather*}}
 
+\usepackage[polish]{babel} % wymagany do nastepnego
+\usepackage[utf8]{inputenc} % Biegański
+
+\title{Semantyka i weryfikacja \\ Praca domowa nr 2}
+\author{Mateusz Biegański mb385162}
 
 \begin{document}
 
-\begin{center}
-	\Large{Semantyka i weryfikacja - praca domowa nr 2}
-	\newline
-	\large{Mateusz Bieganski mb385162}
-\end{center}
+\maketitle
+
+\section*{Domains}
+Only Procedure domain might differ from standard TINY domains are listed (variable passing by reference)
+$$Proc = Store \rightarrow Loc \rightharpoonup Store$$
+
+\section*{Semantic function types}
+
+$\sem{\mathbf{Num}} : Int$
+
+$\sem{\mathbf{Expr}}: (VEnv \rightarrow Store) \rightharpoonup \mathbb{Q}$
+
+$\sem{\mathbf{BExpr}} : (VEnv \rightarrow Store) \rightharpoonup Bool$
+
+$\sem{\mathbf{Decl}} : (VEnv \rightarrow PEnv \rightarrow Store) \rightharpoonup (VEnv \rightarrow PEnv \rightarrow Store)$
+
+$\sem{\mathbf{Instr}} : (VEnv \rightarrow PEnv \rightarrow Store) \rightharpoonup Store$
 
 
-\section{Expressions}
+\section*{Declarations}
 
+Standard ones, I put them because on the Lecture they were separated to Procedure declaration and Variable declaration, and I got them mixed.
 
-
-\eq{e}{	
-	\sem{e} \srod = q \in \mathbb{Q}
-}
-
-\eq {x} {
-	\sem{x} \srod = s \;(\varrho_{V} \; x)
-}
-
-\eq {e + e} {
-	\sem{e_1 + e_2} \srod = \sem{e1} \srod + \sem{e2} \srod
-}
-
-\eq {e * e, e - e - similarly} {
-\;
-}
-
-\section{Bool Expressions}
-\eq {true} {
-	\sem{true} \srod = tt
-}
-
-\eq {false} {
-	\sem{false} \srod = ff
-}
-
-\eq {e $<$ e} {
-	\sem{e_1 < e_2} \srod = ifte(\;\sem{e_1} \srod < \sem{e_2} \srod, \; tt, ff \;)
-}
-
-\eq {e = e, b $\wedge$ b, $\neg$b - similarly} {
-	\;
-}
-
-\section{Declarations}
 \eq {var x = e} {
 	\sem{var \; x = e} \srodP = \varrho_{V}[x \mapsto l], \varrho_{P}, 
 	s[l \mapsto n] \\
@@ -71,7 +59,7 @@
 
 \eq {proc p(x) I} {
 	\sem{proc \; p(x) \;I} \srodP  =  \varrho_V \; \varrho_{P}[p \mapsto P] \; s\\
-	where \; P = \lambda s\lambda xloc. s'[locx \mapsto s' \; l] \\
+	where \; P = \lambda s\lambda locx. s'[locx \mapsto s' \; l] \\
 	where \; s' = \sem{I} \; \varrho_{V}[x \mapsto l] \; \varrho_{P}[p \mapsto P] \;s[l \mapsto (s \; locx)], \\
 	l = newloc(s)
 }
@@ -82,42 +70,16 @@
 }
 
 
-\section{Instructions}
+\section*{Instructions}
 
-
-\eq {skip} {
-	\sem{skip} \srodP = s
-}
-
-\eq {x := e} {
-	\sem{x := e} \srodP = s[(\varrho_V \; x) \mapsto \sem{e} \srod]
-}
-
-\eq {$I_1;I_2$} {
-	\sem{I_1;I_2} = \sem{I_2} \circ \sem{I_1}
-}
-
-\eq {if $b$ then $I_1$ else $I_2$} {
-	\sem{if\;b\;then\;I_1\;else\;I_2} \srodP = ifte(\sem{b}\srodP,\;\sem{I_1}\srodP, \sem{I_2}\srodP )
-}
-
-
-todo punkt staly
-\eq {while b do I} {
-	\sem{while\;b\;do\;I} \srodP = Fix(\Phi) \\ 
-	where \; \Phi(F) = ifte(\sem{b}\srodP, \sem{while\;b\;do\;I} (\sem{I} \srodP),\srodP)
-}
 
 \eq {begin D; I end} {
-	\sem{begin\;D;\;I\;end} = \sem{I} \; \sem{D}
+	\sem{begin\;D;\;I\;end} = \sem{I} \circ \sem{D}
 }
 
 \eq {call\;p(x)} {
 	\sem{call\;p(x)} \srodP = (\varrho_P \; p) \; s \; (\varrho_V \; x)
 }
 
-\eq {test} {
-	\Phi
-}
 
 \end{document}
